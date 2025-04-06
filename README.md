@@ -73,42 +73,6 @@ python collect_data.py
 train(train_data, EPOCHS)
 ```
 
-### Face Verification
-```python
-def verify_faces(img_path1, img_path2, threshold=best_threshold):
-    # Preprocess images
-    img1 = preprocess_image(img_path1)
-    img2 = preprocess_image(img_path2)
-    
-    # Add batch dimension
-    img1 = np.expand_dims(img1, axis=0)
-    img2 = np.expand_dims(img2, axis=0)
-    
-    # Get prediction
-    result = model.predict([img1, img2])
-    similarity_score = result[0][0]
-    
-    # Determine if match based on optimal threshold
-    is_match = similarity_score > threshold
-    
-    return {'is_match': bool(is_match), 'score': float(similarity_score)}
-```
-
-## Implementation Details
-
-### Key Features
-- **Efficient Data Pipeline**: Optimized TensorFlow data pipeline with caching and prefetching
-- **Data Augmentation**: Random flips, brightness and contrast adjustments for better generalization
-- **Regularization**: L2 regularization and dropout to prevent overfitting
-- **Learning Rate Scheduling**: Exponential decay to fine-tune training
-- **Threshold Optimization**: Analysis to find the optimal decision threshold
-
-### Performance Considerations
-- GPU acceleration with memory growth enabled
-- Batch processing for efficient training
-- Gradient clipping to prevent exploding gradients
-
-
 ## Visualization
 
 The Siamese network architecture can be visualized as follows:
