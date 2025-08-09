@@ -203,6 +203,9 @@ input[type="range"] { width: 100%; }
 .site-footer { border-top: 1px solid rgba(255,255,255,.06); padding: 20px 0; }
 .footer-inner { display: flex; align-items: center; justify-content: space-between; }
 .foot-meta { color: var(--muted); }
+.foot-links { display: flex; align-items: center; gap: 10px; }
+.foot-links a { color: var(--muted); text-decoration: none; }
+.foot-links a:hover { color: var(--text); }
 
 /* Responsive */
 @media (max-width: 1024px) {
