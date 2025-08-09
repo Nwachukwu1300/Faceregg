@@ -1,0 +1,231 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>FaceEgg — Face Recognition for Business Security</title>
+    <meta name="description" content="FaceEgg is a facial recognition model for business security: access control, fraud prevention, and KYC. Try the private browser demo, then integrate via SaaS, cloud, or on‑prem." />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;700&family=IBM+Plex+Mono:wght@300;400;600&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="./styles.css" />
+
+    <!-- TensorFlow.js + face-api.js (loaded from CDN for a pure static site) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@3.21.0/dist/tf.min.js"></script>
+    <script defer src="https://unpkg.com/face-api.js@0.22.2/dist/face-api.min.js"></script>
+    <script defer src="./script.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="container header-inner">
+        <div class="brand">
+          <div class="logo">🟩</div>
+          <div class="name">FaceEgg</div>
+        </div>
+        <nav class="nav">
+          <a href="#demo">Demo</a>
+          <a href="#features">Features</a>
+          <a href="#pricing">Pricing</a>
+          <a class="cta" href="#contact">Contact</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <!-- Hero -->
+      <section class="hero">
+        <div class="container hero-inner">
+          <div class="hero-copy">
+            <h1>Facial recognition for business security.</h1>
+            <p>
+              FaceEgg powers access control, fraud prevention, and KYC with accurate face matching.
+              Use the browser demo to test quickly; production deployments run in the cloud or on‑prem to meet your security and compliance needs.
+            </p>
+            <div class="hero-ctas">
+              <a class="btn primary" href="#demo">Try the demo</a>
+              <a class="btn ghost" href="#contact">Integrate as SaaS</a>
+            </div>
+            <div class="privacy-note">Browser demo only · No uploads · No database</div>
+          </div>
+          <div class="hero-art" aria-hidden="true">
+            <div class="grid">
+              <div class="cell"></div>
+              <div class="cell"></div>
+              <div class="cell large"></div>
+              <div class="cell"></div>
+              <div class="cell"></div>
+              <div class="cell"></div>
+              <div class="cell"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Demo -->
+      <section id="demo" class="demo">
+        <div class="container section-header">
+          <h2>Face match demo</h2>
+          <p>Upload two photos, tune strictness, and run a private on‑device comparison.</p>
+        </div>
+
+        <div class="container demo-grid">
+          <div class="panel upload" id="panelA">
+            <div class="panel-head">
+              <h3>Photo A</h3>
+              <span class="hint">Single face only</span>
+            </div>
+            <label class="dropzone" for="fileA">
+              <input type="file" id="fileA" accept="image/*" />
+              <div class="dz-inner">
+                <div class="dz-icon">⬆</div>
+                <div class="dz-text">Drag & drop or click to upload</div>
+              </div>
+              <img id="previewA" alt="Preview A" />
+            </label>
+            <div class="status" id="statusA">Waiting for image…</div>
+          </div>
+
+          <div class="panel upload" id="panelB">
+            <div class="panel-head">
+              <h3>Photo B</h3>
+              <span class="hint">Single face only</span>
+            </div>
+            <label class="dropzone" for="fileB">
+              <input type="file" id="fileB" accept="image/*" />
+              <div class="dz-inner">
+                <div class="dz-icon">⬆</div>
+                <div class="dz-text">Drag & drop or click to upload</div>
+              </div>
+              <img id="previewB" alt="Preview B" />
+            </label>
+            <div class="status" id="statusB">Waiting for image…</div>
+          </div>
+
+          <div class="panel controls">
+            <div class="panel-head">
+              <h3>Strictness</h3>
+              <span class="hint">Lower threshold = stricter</span>
+            </div>
+            <div class="slider-row">
+              <input type="range" min="0" max="100" value="60" id="strictness" />
+              <div class="slider-meta">
+                <span>Strictness:</span>
+                <strong id="strictnessLabel">60</strong>
+              </div>
+              <div class="slider-meta small">
+                <span>Threshold:</span>
+                <code id="thresholdLabel">0.44</code>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button id="compareBtn" class="btn primary" disabled>Compare</button>
+              <button id="resetBtn" class="btn ghost">Reset</button>
+            </div>
+
+            <div class="result" id="resultBox">
+              <div class="result-title">Result</div>
+              <div class="result-line">
+                <span>Status:</span>
+                <strong id="matchStatus">—</strong>
+              </div>
+              <div class="result-line">
+                <span>Distance:</span>
+                <code id="distanceVal">—</code>
+              </div>
+              <div class="result-line">
+                <span>Confidence:</span>
+                <code id="confidenceVal">—</code>
+              </div>
+              <div class="result-note" id="resultNote">Load two photos to begin.</div>
+            </div>
+          </div>
+        </div>
+        <div class="container footnote">All processing happens locally in your browser. Images are never uploaded.</div>
+      </section>
+
+      <!-- Features -->
+      <section id="features" class="features">
+        <div class="container section-header">
+          <h2>Built for security teams</h2>
+          <p>Deploy reliable face matching with enterprise controls and privacy‑first defaults.</p>
+        </div>
+
+        <div class="container cards">
+          <div class="card">
+            <div class="card-title">Access control & workforce</div>
+            <p>Secure entry, attendance, and identity checks for offices, labs, and field teams.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Fraud & duplicate detection</div>
+            <p>Prevent multi‑account abuse and verify users during onboarding and transactions.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Policy & strictness controls</div>
+            <p>Calibrate thresholds and flows for different risk levels and regulatory contexts.</p>
+          </div>
+          <div class="card">
+            <div class="card-title">Enterprise integration</div>
+            <p>Cloud or on‑prem deployments, auditability, and security reviews. Built for real constraints.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Pricing -->
+      <section id="pricing" class="pricing">
+        <div class="container section-header">
+          <h2>Deployment options</h2>
+          <p>Start with the demo, then integrate in cloud or on‑prem. Custom terms available.</p>
+        </div>
+        <div class="container price-grid">
+          <div class="price-card">
+            <div class="price-head">Online demo</div>
+            <div class="price-tag">$0</div>
+            <ul>
+              <li>Quick browser demo</li>
+              <li>No uploads, no database</li>
+              <li>Fair‑use terms</li>
+            </ul>
+          </div>
+          <div class="price-card">
+            <div class="price-head">Enterprise</div>
+            <div class="price-tag">Let's chat</div>
+            <ul>
+              <li>Cloud or on‑prem</li>
+              <li>Custom SLAs</li>
+              <li>Security review</li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Contact CTA -->
+      <section id="contact" class="contact">
+        <div class="container contact-inner">
+          <div class="contact-copy">
+            <h2>Bring FaceEgg to your security stack</h2>
+            <p>
+              We implement FaceEgg for access control, fraud prevention, and KYC. Integrations are available as SaaS, cloud, or on‑prem with the controls your team needs.
+            </p>
+          </div>
+          <div class="contact-cta">
+            <div class="sub" style="margin-bottom:8px;">Contact: <strong>mmesoma nwachukwu</strong></div>
+            <a class="btn primary xl" href="mailto:mnfinance664@gmail.com?subject=FaceEgg%20SaaS%20Inquiry">mnfinance664@gmail.com</a>
+            <div class="sub">Prefer a call? Include a time window in your email to mmesoma.</div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="container footer-inner">
+        <div class="foot-brand">FaceEgg</div>
+        <div class="foot-meta">© <span id="year"></span> FaceEgg. Private, fast, and embeddable.</div>
+      </div>
+    </footer>
+  </body>
+</html>
+
+
